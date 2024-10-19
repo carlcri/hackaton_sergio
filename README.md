@@ -56,6 +56,41 @@ def crear_reporte():
     return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
 ```
 
+### Modifica Peticiones POST
+
+Para agregar nuevos campos: en este caso 'estado' y 'creado'
+
+```py
+@app.route('/api/reportes', methods=['POST'])
+def crear_reporte():
+    global next_id
+
+    timestamp = datetime.now().strftime('%Y-%m-%d')
+
+    if request.form:
+        lat = request.form['lat']
+        lon = request.form['lon']
+        material = request.form['material']
+    else:
+        data = request.json
+        lat = data['lat']
+        lon = data['lon']
+        material = data['material']
+
+    nuevo_reporte = {
+        'id': next_id,
+        'lat': lat,
+        'lon': lon,
+        'material': material,
+        'estado': 'reportado',
+        'creado': timestamp,
+    }
+    reportes.append(nuevo_reporte)
+    next_id += 1
+    return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
+```
+
+
 ### Mentoria con Abel n la mañana 
 
 Abel sugiere *https://lookerstudio.google.com/navigation/reporting* para visuabilizar datos

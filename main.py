@@ -1,5 +1,7 @@
 import os
 from flask import Flask, render_template, request, jsonify, abort
+from datetime import datetime
+
 
 def create_app():
     app = Flask(__name__)
@@ -38,24 +40,14 @@ def obtener_reportes():
 
 
 
-# @app.route('/api/reportes', methods=['POST'])
-# def crear_reporte():
-#     global next_id
-#     data = request.json
-#     nuevo_reporte = {
-#         'id': next_id,
-#         'lat': data['lat'],
-#         'lon': data['lon'],
-#         'material': data['material']
-#     }
-#     reportes.append(nuevo_reporte)
-#     next_id += 1
-#     return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
 
 
 @app.route('/api/reportes', methods=['POST'])
 def crear_reporte():
     global next_id
+
+    timestamp = datetime.now().strftime('%Y-%m-%d')
+
     if request.form:
         lat = request.form['lat']
         lon = request.form['lon']
@@ -70,7 +62,9 @@ def crear_reporte():
         'id': next_id,
         'lat': lat,
         'lon': lon,
-        'material': material
+        'material': material,
+        'estado': 'reportado',
+        'creado': timestamp,
     }
     reportes.append(nuevo_reporte)
     next_id += 1
