@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo de Reciclaje</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mapa de Reciclaje</h1>
+    <div id="map"></div>
+
+    <button onclick="reportarMaterial()">Reportar Material Reciclable</button>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Crear el mapa centrado en Bogotá
+        var map = L.map('map').setView([4.60971, -74.08175], 12);
+
+        // Cargar el mapa desde OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Obtener las denuncias del backend y mostrarlas en el mapa
+        fetch('/buscar')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(denuncia => {
+                    L.marker([denuncia.lat, denuncia.lon]).addTo(map)
+                        .bindPopup(`Material: ${denuncia.material}`)
+                        .openPopup();
+                });
+            });
+
+        // Función para reportar material reciclable
+        function reportarMaterial() {
+            var lat = map.getCenter().lat;
+            var lon = map.getCenter().lng;
+            var material = prompt("¿Qué material reciclable encontraste? (ej. Plástico, Cuero)");
+
+            if (material) {
+                fetch('/denunciar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lat: lat,
+                        lon: lon,
+                        material: material
+                    })
+                }).then(response => response.json())
+                  .then(data => alert(data.message));
+            }
+        }
+    </script>
+</body>
+</html>
