@@ -27,6 +27,35 @@ curl -X GET http://127.0.0.1:5000/api/reportes
 
 ```
 
-### Reto Menotia 
+### Implemento Peticiones POST
+
+se pueden seguir haciendo igualmente con el comando *curl*, y con el nuevo formulario que se implemento en: *http://127.0.0.1:5000/api/reportes*
+
+```py
+@app.route('/api/reportes', methods=['POST'])
+def crear_reporte():
+    global next_id
+    if request.form:
+        lat = request.form['lat']
+        lon = request.form['lon']
+        material = request.form['material']
+    else:
+        data = request.json
+        lat = data['lat']
+        lon = data['lon']
+        material = data['material']
+
+    nuevo_reporte = {
+        'id': next_id,
+        'lat': lat,
+        'lon': lon,
+        'material': material
+    }
+    reportes.append(nuevo_reporte)
+    next_id += 1
+    return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
+```
+
+### Mentoria con Abel n la mañana 
 
 Abel sugiere *https://lookerstudio.google.com/navigation/reporting* para visuabilizar datos

@@ -25,6 +25,12 @@ def test():
     return render_template("test.html")
 
 
+# Ruta para manejar el formulario
+@app.route('/formulario', methods=['GET'])
+def formulario():
+    return render_template('form.html')
+
+
 
 @app.route('/api/reportes', methods=['GET'])
 def obtener_reportes():
@@ -32,15 +38,39 @@ def obtener_reportes():
 
 
 
+# @app.route('/api/reportes', methods=['POST'])
+# def crear_reporte():
+#     global next_id
+#     data = request.json
+#     nuevo_reporte = {
+#         'id': next_id,
+#         'lat': data['lat'],
+#         'lon': data['lon'],
+#         'material': data['material']
+#     }
+#     reportes.append(nuevo_reporte)
+#     next_id += 1
+#     return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
+
+
 @app.route('/api/reportes', methods=['POST'])
 def crear_reporte():
     global next_id
-    data = request.json
+    if request.form:
+        lat = request.form['lat']
+        lon = request.form['lon']
+        material = request.form['material']
+    else:
+        data = request.json
+        lat = data['lat']
+        lon = data['lon']
+        material = data['material']
+
     nuevo_reporte = {
         'id': next_id,
-        'lat': data['lat'],
-        'lon': data['lon'],
-        'material': data['material']
+        'lat': lat,
+        'lon': lon,
+        'material': material
     }
     reportes.append(nuevo_reporte)
     next_id += 1

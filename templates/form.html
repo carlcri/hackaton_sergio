@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Reporte</title>
+</head>
+<body>
+    <h1>Generar un Nuevo Reporte</h1>
+    <p>Hola, desde aquí podrás reportar material reciclado de tu barrio o localidad. ¡Cuidar el planeta es importante!</p>
+    
+    <!--El formulario envia los datos mediante el metodo POST a la ruta /api/reportes-->
+    <form action="/api/reportes" method="POST">
+        <label for="lat">Latitud:</label>
+        <input type="text" id="lat" name="lat" required><br><br>
+
+        <label for="lon">Longitud:</label>
+        <input type="text" id="lon" name="lon" required><br><br>
+
+        <label for="material">Material:</label>
+        <input type="text" id="material" name="material" required><br><br>
+
+        <button type="submit">Enviar Reporte</button>
+    </form>
+</body>
+</html>
