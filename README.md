@@ -94,3 +94,23 @@ def crear_reporte():
 ### Mentoria con Abel n la mañana 
 
 Abel sugiere *https://lookerstudio.google.com/navigation/reporting* para visuabilizar datos
+
+
+
+
+
+
+
+
+
+
+### Nuevo Participante
+
+Carlos Eduardo Escobar
+https://www.rk7agencia.net/
+3117218398
+
+Aliado estrategico
+www.webs-inn.com
+
+https://www.rk7agencia.net/ -  https://www.webs-inn.com/ -  https://bi-solutionslatinoamerica.com/

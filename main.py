@@ -1,6 +1,9 @@
 import os
 from flask import Flask, render_template, request, jsonify, abort
 from datetime import datetime
+from geopy.geocoders import Nominatim
+from funciones.utilidades import buscar_ciudad
+
 
 
 def create_app():
@@ -39,9 +42,6 @@ def obtener_reportes():
     return jsonify(reportes)
 
 
-
-
-
 @app.route('/api/reportes', methods=['POST'])
 def crear_reporte():
     global next_id
@@ -58,6 +58,10 @@ def crear_reporte():
         lon = data['lon']
         material = data['material']
 
+    city, country = buscar_ciudad(lat=lat, lon=lon)
+
+
+
     nuevo_reporte = {
         'id': next_id,
         'lat': lat,
@@ -65,10 +69,13 @@ def crear_reporte():
         'material': material,
         'estado': 'reportado',
         'creado': timestamp,
+        'area': city,
+        'country': country,
     }
     reportes.append(nuevo_reporte)
     next_id += 1
     return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
+
 
 
 
