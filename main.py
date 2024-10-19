@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, abort
 
 def create_app():
     app = Flask(__name__)
@@ -32,7 +32,6 @@ def obtener_reportes():
 
 
 
-
 @app.route('/api/reportes', methods=['POST'])
 def crear_reporte():
     global next_id
@@ -47,3 +46,12 @@ def crear_reporte():
     next_id += 1
     return jsonify({'message': 'Reporte creado exitosamente', 'reporte': nuevo_reporte}), 201
 
+
+
+
+@app.route('/api/reportes/<int:id>', methods=['GET'])
+def obtener_reporte(id):
+    reporte = next((r for r in reportes if r['id'] == id), None)
+    if reporte is None:
+        abort(404)
+    return jsonify(reporte)
