@@ -96,9 +96,22 @@ def crear_reporte():
 Abel sugiere *https://lookerstudio.google.com/navigation/reporting* para visuabilizar datos
 
 
+### Error Inesperado
+
+Se presenta un ``HTTP Error 403: Forbidden`` al momento de hacer un POST, inicialmente desde el formulario, y posteriormente desde la misma consola.
+
+Indica que mi aplicación no tiene permisos suficientes para acceder al servicio de geocodificación de **Nominatim**. al parecer por hacer demasiadas solicitudes en un corto período de tiempo o si el servicio bloquea mi acceso por otro motivo. 😫
 
 
+### Añadimos El Excel 
 
+La base de datos *DataBaseHK.xlsx* esta siendo desarrollada 
+
+### Creacion de sitio externo
+
+https://ecomapodsbogota.wixsite.com/inicio
+
+Un portal en wix. 
 
 
 

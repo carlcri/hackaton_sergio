@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, jsonify, abort
+from flask import Flask, render_template, request, jsonify, abort, redirect
 from datetime import datetime
 from geopy.geocoders import Nominatim
 from funciones.utilidades import buscar_ciudad
@@ -23,6 +23,11 @@ def root():
     last_directory = os.path.basename(current_directory)
 
     return f'Current Project: {last_directory}'
+
+
+@app.route('/ecomap')
+def ods_bogota():
+    return redirect('https://ecomapodsbogota.wixsite.com/inicio')
 
 
 @app.route('/test')
@@ -52,15 +57,15 @@ def crear_reporte():
         lat = request.form['lat']
         lon = request.form['lon']
         material = request.form['material']
+        cantidad = request.form['cantidad']
     else:
         data = request.json
         lat = data['lat']
         lon = data['lon']
         material = data['material']
+        cantidad = request.form['cantidad']
 
     city, country = buscar_ciudad(lat=lat, lon=lon)
-
-
 
     nuevo_reporte = {
         'id': next_id,
@@ -71,6 +76,9 @@ def crear_reporte():
         'creado': timestamp,
         'area': city,
         'country': country,
+        'actualizado': timestamp,
+        'reciclador': 'sin asignar',
+        'cantidad': cantidad,
     }
     reportes.append(nuevo_reporte)
     next_id += 1
